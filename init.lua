@@ -556,7 +556,29 @@ require('lazy').setup({
         -- pyright = {},
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        texlab = {},
+        texlab = {
+          on_attach = function(client, bufnr)
+            -- force indentation
+            vim.api.nvim_buf_set_option(bufnr, 'tabstop', 4)
+            vim.api.nvim_buf_set_option(bufnr, 'shiftwidth', 4)
+            vim.api.nvim_buf_set_option(bufnr, 'softtabstop', 4)
+            vim.api.nvim_buf_set_option(bufnr, 'expandtab', true)
+
+            -- disable formatting
+            client.server_capabilities.documentFormattingProvider = false
+            client.server_capabilities.documentRangeFormattingProvider = false
+          end,
+
+          settings = {
+            texlab = {
+              latexFormatter = 'latexindent', -- still needs to be specified, but it won’t run
+              latexindent = {
+                modifyLineBreaks = false,
+              },
+            },
+          },
+        },
+
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
