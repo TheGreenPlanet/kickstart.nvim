@@ -84,6 +84,9 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- Make it so <space> works as leader when in visual mode
+-- vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
+
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are loaded (otherwise wrong leader will be used)
@@ -169,6 +172,19 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 
 -- NOTE CUSTOM KEYMAPS
 -- Save
+--
+
+-- Toggle dark/light mode
+vim.keymap.set('n', '<A-l>', function()
+  local current = vim.opt.background:get()
+  if current == 'dark' then
+    vim.opt.background = 'light'
+  else
+    vim.opt.background = 'dark'
+  end
+end, { desc = 'Toggle background' })
+
+-- Ctrl save
 vim.keymap.set('n', '<C-s>', ':w<CR>', { desc = 'Save current file', noremap = true, silent = true })
 
 vim.keymap.set('i', '<C-s>', '<ESC>:w<CR>a', { desc = 'Save current file', noremap = true, silent = true })
